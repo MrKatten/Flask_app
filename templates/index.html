@@ -1,31 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style>
-    div {
-        float: left;
-        line-width: 1500px;
-        width: 340px;
-        height: 400px;
-        margin-right: 15px;
-        margin-bottom: 15px;
-    }
-    img {
-        display: block;
-        width: 150px;
-        height: 150px;
-    }
-    h3 {
-        margin-left: 5px;
-    }
-    h4 {
-        margin-left: 5px;
-    }
-    a {
-        display: block;
-        margin-left: 5px;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="static/css/style.css" />
 <br>
 <h1>Товары:</h1>
 {% for item in products%}
