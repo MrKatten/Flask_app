@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    div {
+        float: left;
+        line-width: 1500px;
+        width: 340px;
+        height: 400px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+<h1>Аккаунт</h1>
+<br><br/>
+
+{% if current_user.is_authenticated and current_user.role == "Продавец" %}
+<a class="btn btn-primary" href="/products">Создать товар</a>
+<br><br/>
+{% endif %}
+<a class="btn btn-danger" href="/delete_account/{{ current_user.id }}">Удалить аккаунт</a>
+<a class="btn btn-danger" href="/logout">Выйти</a>
+<br><br/>
+
+
+<h2>Товары, понравившиеся Вам:</h2>
+{% if fav != [] %}
+{% for item in products%}
+{% for i in fav %}
+{% if item.id == i %}
+<div class="col-md6 border rounded">
+    <img src="/static/{{item.photo}}" width=150 height=150 align="bottom" alt="Что-то пошло не так">
+    <p>
+    <h3>{{item.title}}</h3>
+    <h4>Описание: {{item.content}}</h4>
+    <h4>Цена: {{item.price}} руб.</h4>
+    <h4>Автор: {{item.user.name}}</h4>
+    </p>
+</div>
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+<br></br>
+
+
+{% if current_user.is_authenticated and current_user.role == "Продавец" %}
+<h2> Товары, выложенные Вами:</h2>
+{% for item in products%}
+{% if current_user == item.user %}
+<div class="col-md6 border rounded">
+    <img src="/static/{{item.photo}}" width=150 height=150 align="bottom" alt="Что-то пошло не так">
+    <p>
+    <h3>{{item.title}}</h3>
+    <h4>Описание: {{item.content}}</h4>
+    <h4>Цена: {{item.price}} руб.</h4>
+    <h4>Автор: {{item.user.name}}</h4>
+    </p>
+    <p><a href="/products/{{ item.id }}" class="btn btn-warning">
+        Изменить
+    </a>
+    <a href="/products_delete/{{ item.id }}" class="btn btn-danger">
+        Удалить
+    </a></p>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endblock %}

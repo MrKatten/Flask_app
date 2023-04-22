@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    div {
+        float: left;
+        line-width: 1500px;
+        width: 340px;
+        height: 400px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+    }
+    img {
+        display: block;
+        width: 150px;
+        height: 150px;
+    }
+    h3 {
+        margin-left: 5px;
+    }
+    h4 {
+        margin-left: 5px;
+    }
+    a {
+        display: block;
+        margin-left: 5px;
+    }
+</style>
+<h1>Товары:</h1>
+<br></br>
+{% for item in products%}
+<div class="col-md6 border rounded">
+    <img src="/static/{{item.photo}}" width=150 height=200 align="bottom" alt="Что-то пошло не так">
+    <p>
+    <h3>{{item.title}}</h3>
+    <h4>Описание: {{item.content}}</h4>
+    <h4>Цена: {{item.price}} руб.</h4>
+    <h4>Автор: {{item.user.name}}</h4>
+    </p>
+    {% if current_user.is_authenticated %}
+    <p><a href="/add_to_favourite/{{ item.id }}" class="btn btn-success">Добавить в корзину</a></p>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}
