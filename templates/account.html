@@ -11,17 +11,16 @@
         margin-bottom: 15px;
     }
 </style>
+<br>
 <h1>Аккаунт</h1>
-<br><br/>
 
 {% if current_user.is_authenticated and current_user.role == "Продавец" %}
 <a class="btn btn-primary" href="/products">Создать товар</a>
 <br><br/>
 {% endif %}
-<a class="btn btn-danger" href="/delete_account/{{ current_user.id }}">Удалить аккаунт</a>
 <a class="btn btn-danger" href="/logout">Выйти</a>
+<a class="btn btn-danger" href="/delete_account/{{ current_user.id }}">Удалить аккаунт</a>
 <br><br/>
-
 
 <h2>Товары, понравившиеся Вам:</h2>
 {% if fav != [] %}
@@ -36,14 +35,18 @@
     <h4>Цена: {{item.price}} руб.</h4>
     <h4>Автор: {{item.user.name}}</h4>
     </p>
+    <a href="/delete_fav/{{ item.id }}" class="btn btn-danger">
+        Удалить из корзины
+    </a>
 </div>
 {% endif %}
 {% endfor %}
 {% endfor %}
+{% else %}
+<br>
+<h3>Здесь ещё ничего нет</h3>
+<br>
 {% endif %}
-
-<br></br>
-
 
 {% if current_user.is_authenticated and current_user.role == "Продавец" %}
 <h2> Товары, выложенные Вами:</h2>

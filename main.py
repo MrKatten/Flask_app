@@ -194,9 +194,26 @@ def add_to_fav(id):
         fav = ';'.join(list_of_fav)
         user.fav = fav
     else:
-        current_user.fav = str(products.id)
+        user.fav = str(products.id)
     db_sess.commit()
     return redirect("/")
+
+
+@app.route('/delete_fav/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_fav(id):
+    db_sess = db_session.create_session()
+    products = db_sess.query(Products).filter(Products.id == id).first()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    list_of_fav = current_user.fav.split(';')
+    fav = []
+    for i in list_of_fav:
+        if products.id != int(i):
+            fav.append(i)
+    fav = ';'.join(fav)
+    user.fav = fav
+    db_sess.commit()
+    return redirect("/account")
 
 
 def main():
