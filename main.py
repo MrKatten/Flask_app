@@ -12,7 +12,6 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-# app.config['UPLOAD_FOLDER'] = 'static'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -92,7 +91,6 @@ def add_products():
         db_sess.commit()
         return redirect('/')
     return render_template('products.html', title='Добавление товара', form=form)
-
 
 
 @app.route('/products/<int:id>', methods=['GET', 'POST'])
