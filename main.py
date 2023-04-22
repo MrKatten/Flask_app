@@ -12,7 +12,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-app.config['UPLOAD_FOLDER'] = 'static'
+# app.config['UPLOAD_FOLDER'] = 'static'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -23,6 +23,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+# Главная страница
 @app.route("/")
 def index():
     db_sess = db_session.create_session()
@@ -30,6 +31,7 @@ def index():
     return render_template("index.html", products=products)
 
 
+# Регистрация
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -55,6 +57,7 @@ def reqister():
     return render_template('register.html', title='Регистрация', form=form)
 
 
+# Вход
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -81,7 +84,7 @@ def add_products():
         products.content = form.content.data
         products.price = form.price.data
         file = form.file.data
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'],
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/img',
                                secure_filename(file.filename)))
         products.photo = file.filename
         current_user.products.append(products)
@@ -89,6 +92,7 @@ def add_products():
         db_sess.commit()
         return redirect('/')
     return render_template('products.html', title='Добавление товара', form=form)
+
 
 
 @app.route('/products/<int:id>', methods=['GET', 'POST'])
