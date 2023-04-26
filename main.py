@@ -119,7 +119,7 @@ def edit_products(id):
             products.content = form.content.data
             products.price = form.price.data
             file = form.file.data
-            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'],
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/img',
                                    secure_filename(file.filename)))
             products.photo = file.filename
             db_sess.commit()
