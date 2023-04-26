@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="static/css/style.css"/>
+
 <br>
 <h1>Аккаунт</h1>
 
@@ -19,7 +19,7 @@
 {% for i in fav %}
 {% if item.id == i %}
 <div class="col-md6 border rounded">
-    <img src="/static/img/{{item.photo}}" width=150 height=150 align="bottom" alt="Что-то пошло не так">
+    <img src="/static/img/{{item.photo}}" width=150 height=150 align="left" alt="Что-то пошло не так">
     <p>
     <h3>{{item.title}}</h3>
     <h4>Описание: {{item.content}}</h4>
@@ -39,12 +39,13 @@
 <br>
 {% endif %}
 
+<br><br/>
 {% if current_user.is_authenticated and current_user.role == "Продавец" %}
 <h2> Товары, выложенные Вами:</h2>
 {% for item in products%}
 {% if current_user == item.user %}
 <div class="col-md6 border rounded">
-    <img src="/static/img/{{item.photo}}" width=150 height=150 align="bottom" alt="Что-то пошло не так">
+    <img src="/static/img/{{item.photo}}" width=150 height=150 align="left" alt="Что-то пошло не так">
     <p>
     <h3>{{item.title}}</h3>
     <h4>Описание: {{item.content}}</h4>
