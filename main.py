@@ -72,7 +72,7 @@ def login():
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
 
-
+# Добавление товара
 @app.route('/products', methods=['GET', 'POST'])
 @login_required
 def add_products():
@@ -93,7 +93,7 @@ def add_products():
         return redirect('/')
     return render_template('products.html', title='Добавление товара', form=form)
 
-
+# Редактирование товара
 @app.route('/products/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_products(id):
@@ -132,7 +132,7 @@ def edit_products(id):
                            form=form
                            )
 
-
+# Удаление товара
 @app.route('/products_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def products_delete(id):
@@ -147,41 +147,43 @@ def products_delete(id):
         abort(404)
     return redirect('/account')
 
-
+# Аккаунт
 @app.route("/account")
 @login_required
 def account():
     db_sess = db_session.create_session()
     products = db_sess.query(Products)
+    # Передача понравившихся товаров в account.html
     if current_user.fav != '':
         list_of_fav = current_user.fav.split(';')
         fav = []
         for i in list_of_fav:
             fav.append(int(i))
-
     else:
         fav = []
     return render_template("account.html", products=products, fav=fav)
 
-
+# Выход из системы
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect("/")
 
-
+#Удаление аккаунта
 @app.route('/delete_account/<int:id>')
 @login_required
 def delete_account(id):
     db_sess = db_session.create_session()
     user = db_sess.query(User).get(id)
+    # Удаление товара, добавленного пользователем
     db_sess.query(Products).filter(Products.user_id == id).delete()
+    # Удаление пользователя
     db_sess.delete(user)
     db_sess.commit()
     return redirect("/")
 
-
+# Довабление товара в избранное
 @app.route('/add_to_favourite/<int:id>')
 @login_required
 def add_to_fav(id):
@@ -201,7 +203,7 @@ def add_to_fav(id):
     db_sess.commit()
     return redirect("/")
 
-
+# Удаление товара из корзины
 @app.route('/delete_fav/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_fav(id):
